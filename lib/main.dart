@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_03_meals_app/screens/category_meals_screen.dart';
 import 'package:flutter_03_meals_app/screens/meal_detail_screen.dart';
+import 'package:flutter_03_meals_app/screens/tab_screen.dart';
 
 import 'screens/categories_screen.dart';
 
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
             ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: CategoriesScreen(),
+      home: TabsScreen(),
       routes: {
         CategoryMealsScreen.ROUTE: (ctx) => CategoryMealsScreen(),
         MealDetailScreen.ROUTE: (ctx) => MealDetailScreen(),
