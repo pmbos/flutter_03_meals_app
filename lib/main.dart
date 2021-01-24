@@ -25,6 +25,7 @@ class _MyAppState extends State<MyApp> {
   );
 
   List<Meal> _availableMeals = DUMMY_MEALS;
+  List<Meal> _favouriteMeals = [];
 
   void _updateFilters(Filters filterData) {
     setState(() {
@@ -34,6 +35,23 @@ class _MyAppState extends State<MyApp> {
           .where((element) => _filters.includeMeal(element))
           .toList();
     });
+  }
+
+  void _toggleFavourite(String mealId) {
+    final index = _favouriteMeals.indexWhere((element) => element.id == mealId);
+    if (index >= 0)
+      setState(() {
+        _favouriteMeals.removeAt(index);
+      });
+    else
+      setState(() {
+        _favouriteMeals
+            .add(DUMMY_MEALS.firstWhere((element) => element.id == mealId));
+      });
+  }
+
+  bool _isMealFavourite(String id) {
+    return _favouriteMeals.any((element) => element.id == id);
   }
 
   @override
@@ -59,11 +77,12 @@ class _MyAppState extends State<MyApp> {
             ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: TabsScreen(),
+      home: TabsScreen(_favouriteMeals),
       routes: {
         CategoryMealsScreen.ROUTE: (ctx) =>
             CategoryMealsScreen(_availableMeals),
-        MealDetailScreen.ROUTE: (ctx) => MealDetailScreen(),
+        MealDetailScreen.ROUTE: (ctx) =>
+            MealDetailScreen(_toggleFavourite, _isMealFavourite),
         FiltersScreen.ROUTE: (ctx) => FiltersScreen(_filters, _updateFilters),
       },
       // Is capable of handling a route that hasn't been registered
